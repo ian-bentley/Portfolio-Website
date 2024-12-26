@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <nav>
-        <span id='websiteTitle'>IAN BENTLEY</span>
+        <span id='website-title'>IAN BENTLEY</span>
         <div id='links'>
           <Link to='/home'>About Me</Link>
           <Link to='/projects'>Projects</Link>
