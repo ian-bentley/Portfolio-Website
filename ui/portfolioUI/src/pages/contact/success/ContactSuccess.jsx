@@ -2,6 +2,8 @@
 
 export default function ContactSuccess() {
     return (
-        <>Contact Success</>
+        <>
+            <h1>Success! Your contact form has been submitted.</h1>
+        </>
     )
 }

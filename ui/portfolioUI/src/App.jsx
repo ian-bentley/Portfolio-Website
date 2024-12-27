@@ -7,6 +7,8 @@ import Contact from './pages/contact/Contact'
 import ContactSuccess from './pages/contact/success/ContactSuccess'
 import Blog from './pages/blog/Blog'
 import Blog404 from './pages/blog/Blog404'
+import SubscribeSuccess from './pages/blog/SubscribeSuccess'
+import SubscribeValidation from './pages/blog/SubscribeValidation'
 import Post from './pages/blog/post/Post'
 import NoPage from './pages/NoPage'
 
@@ -25,11 +27,11 @@ function App() {
       </nav>
 
       <Routes>
-        <Route index element={<Navigate to="/home"/>} />
+        <Route index element={<Navigate to='/home'/>} />
         <Route path='/home' element={<Home/>}/>
         <Route path='/projects'>
           <Route index element={<Projects/>} />
-          <Route path='project/:id' element={<Project/>}/>
+          <Route path='project/:slug' element={<Project/>}/>
           <Route path='404' element={<Project404/>}/>
         </Route>
         <Route path='/contact'>
@@ -40,8 +42,14 @@ function App() {
           <Route index element={<Blog/>}/>
           <Route path='posts/:slug' element={<Post/>}/>
           <Route path='404' element={<Blog404/>}/>
+          <Route path='subscribe'>
+            <Route index element={<Navigate to='/404'/>}/>
+            <Route path='success' element={<SubscribeSuccess/>}/>
+            <Route path='validation' element={<SubscribeValidation/>}/>
+          </Route>
         </Route>
-        <Route path='*' element={<NoPage/>}/>
+        <Route path='*' element={<Navigate to='/404'/>}/>
+        <Route path='/404' element={<NoPage/>}/>
       </Routes>
     </>
   )

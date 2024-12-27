@@ -2,6 +2,8 @@
 
 export default function Blog404() {
     return (
-        <>Error 404: Post not found</>
+        <>
+            <h1>Sorry! Looks like this blog post doesn't exist.</h1>
+        </>
     )
 }
