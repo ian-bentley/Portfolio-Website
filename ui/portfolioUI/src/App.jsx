@@ -16,13 +16,13 @@ function App() {
 
   return (
     <>
-      <nav>
-        <span id='website-title'>IAN BENTLEY</span>
-        <div id='links'>
-          <Link to='/home'>About Me</Link>
-          <Link to='/projects'>Projects</Link>
-          <Link to='/blog'>Blog</Link>
-          <Link to='/contact'>Contact Me</Link>
+      <nav className='flex justify-between flex-col px-4 pb-4 sm:flex-row'>
+        <span id='website-title' className='font-bold text-xl pb-4'>IAN BENTLEY</span>
+        <div id='links' className='flex justify-center w-full sm:w-96 sm:justify-end'>
+          <Link to='/home' className='px-4'>About</Link>
+          <Link to='/projects' className='px-4'>Projects</Link>
+          <Link to='/blog' className='px-4'>Blog</Link>
+          <Link to='/contact'className='px-4'>Contact</Link>
         </div>
       </nav>
 

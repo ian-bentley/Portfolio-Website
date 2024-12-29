@@ -48,7 +48,7 @@ export default function Contact() {
                         <span>Email</span>
                         <span>*Required</span>
                     </label>
-                    <input type='text' id='email' name='email'/>
+                    <input type='email' id='email' name='email'/>
                 </div>
                 <div>
                     <label htmlFor='phone'>
