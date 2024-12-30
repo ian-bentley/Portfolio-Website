@@ -18,7 +18,7 @@ export default function Home() {
                     </ul>
                 </section>
                 <section id='intro' className='py-16 sm:flex sm:flex-row-reverse'>
-                    <img src='src/imgs/me.jpg' alt='A photo of me; Ian Bentley' className='pb-6 px-6 max-w-80 m-auto'/>
+                    <img src='src/imgs/me.jpg' alt='A photo of me; Ian Bentley' className='pb-6     px-6 max-w-80 m-auto'/>
                     <div className='sm:pr-10'>
                         <h1 className='text-2xl font-semibold pb-4'>Hello! I am Ian Bentley, a software engineering graduate in California.</h1>
                         <p>
