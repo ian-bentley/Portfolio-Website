@@ -6,9 +6,9 @@ export default function Contact() {
             <div id='contact-boxes' className='flex flex-wrap justify-center py-10'>
                 <div id='page-links' className='px-20 pb-8 text-center'>
                     <h1 className='pb-4'>LINKS TO MY PAGES!</h1>
-                    <a className='border-2 rounded-sm w-full bg-gray-200 p-1 px-2 mx-4'
+                    <a className='border-2 rounded-sm w-full hover:bg-gray-300 bg-gray-200 p-1 px-2 mx-4'
                     href=''>LinkedIn</a>
-                    <a className='border-2 rounded-sm w-full bg-gray-200 p-1 px-2 mx-4'
+                    <a className='border-2 rounded-sm w-full hover:bg-gray-300 bg-gray-200 p-1 px-2 mx-4'
                     href=''>GitHub</a>
                 </div>
                 <div id='contact-info' className='px-20 pb-8 text-center'>
@@ -71,7 +71,7 @@ export default function Contact() {
                         </label>
                         <textarea className='border-2 rounded-sm w-full'></textarea>
                     </div>
-                    <input className='border-2 rounded-sm w-full bg-gray-200'
+                    <input className='border-2 rounded-sm w-full hover:bg-gray-300 bg-gray-200'
                      type='submit' value='Send'/>
                 </fieldset>
             </form>

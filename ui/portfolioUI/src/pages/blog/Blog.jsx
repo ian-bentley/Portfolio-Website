@@ -1,23 +1,52 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PostCard from './PostCard'
 import SubscribePopup from './SubcribePopup'
+import { client } from '../../sanityClient'
 
 export default function Blog() {
     const [showPopup, setShowPopup] = useState(null)
+    const [posts, setPosts] = useState(null)
+
+    useEffect(()=>{
+        getPosts()
+    })
+
+    const getPosts = () => {
+        client.fetch(
+            `*[_type == "post"]{
+                title,
+                slug,
+                description,
+                mainImage{
+                    asset->{
+                        _id,
+                        url
+                    },
+                    alt
+                },
+            }`
+        )
+        .then(data=>setPosts(data))
+        .catch(console.error)
+    }
+
+    //data=>setPosts(data)
 
     return (
         <>
             <main className='pb-10'>
                 <div id='subscribe-banner' className='flex flex-wrap justify-end py-10'>
                     <span className='pb-4'>Want to keep up with the latest posts?</span>
-                    <button className='border-2 rounded-md bg-gray-200 p-1 px-4 mx-4'
+                    <button className='border-2 rounded-md hover:bg-gray-300 bg-gray-200 p-1 px-4 mx-4'
                     onClick={()=>setShowPopup(true)}>SUBSCRIBE</button>
                 </div>
-                <SubscribePopup isOpen={showPopup} onClose={()=>setShowPopup(false)}/>
+                <SubscribePopup 
+                isOpen={showPopup}
+                onClose={()=>setShowPopup(false)}/>
                 <form className='pb-4 flex max-w-xl'>
                     <input className='border-2 rounded-sm grow mr-4'
                     type='text' id='search-text'/>
-                    <input className='border-2 rounded-sm bg-gray-200 px-2'
+                    <input className='border-2 rounded-sm hover:bg-gray-300 bg-gray-200 px-2'
                     type='submit' value='Search'/>
                 </form>
                 <section className='lg:flex'>
@@ -103,19 +132,16 @@ export default function Blog() {
                             </fieldset>
                         </fieldset>
                     </form>
-                    <div id='post-list' className='pl-6 pt-10'>
-                        <PostCard
-                        title='Post title'
-                        imageUrl=''
-                        imageAlt='Blog post image'
-                        description='A short decription of the post'
-                        slug='post-1'/>
-                        <PostCard
-                        title='Post title'
-                        imageUrl=''
-                        imageAlt='Blog post image'
-                        description='A short decription of the post'
-                        slug='post-1'/>
+                    <div id='post-list' className='px-6 pt-10'>
+                        {posts && posts.map((post,index)=>(
+                            <PostCard
+                            key={index}
+                            title={post.title}
+                            imageUrl={post.mainImage.asset.url}
+                            imageAlt={post.mainImage.alt}
+                            description={post.description}
+                            slug={post.slug.current}/>
+                        ))}
                     </div>
                 </section>
             </main>
