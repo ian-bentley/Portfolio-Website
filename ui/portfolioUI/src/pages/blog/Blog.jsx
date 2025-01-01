@@ -7,13 +7,64 @@ export default function Blog() {
     const [showPopup, setShowPopup] = useState(null)
     const [posts, setPosts] = useState(null)
 
+    // search bar text
+    const [searchText, setSearchText] = useState('')
+
+    // tags checkbox states
+    const [isCheckedHTML, setIsCheckedHTML] = useState(false)
+    const [isCheckedCSS, setIsCheckedCSS] = useState(false)
+    const [isCheckedJavaScript, setIsCheckedJavaScript] = useState(false)
+    const [isCheckedCSharp, setIsCheckedCSharp] = useState(false)
+    const [isCheckedJava, setIsCheckedJava] = useState(false)
+    const [isCheckedSQL, setIsCheckedSQL] = useState(false)
+    const [isCheckedReact, setIsCheckedReact] = useState(false)
+    const [isCheckedNetAPI, setIsCheckedNetAPI] = useState(false)
+    const [isCheckedTailwind, setIsCheckedTailwind] = useState(false)
+
+    // categories checkbox states
+    const [isCheckedDevUpdate, setIsCheckedDevUpdate] = useState(true)
+    const [isCheckedPatchNotes, setIsCheckedPatchNotes] = useState(true)
+    const [isCheckedCodingTalks, setIsCheckedCodingTalks] = useState(true)
+
+    //date ranges text
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+
     useEffect(()=>{
         getPosts()
-    })
+    }, [searchText, isCheckedHTML, isCheckedCSS, isCheckedJavaScript, isCheckedCSharp, isCheckedJava,
+        isCheckedSQL, isCheckedReact, isCheckedNetAPI, isCheckedTailwind, isCheckedDevUpdate, 
+        isCheckedPatchNotes, isCheckedCodingTalks, startDate, endDate])
 
     const getPosts = () => {
-        client.fetch(
-            `*[_type == "post"]{
+
+        // Set tags array
+        const tags = []
+        if (isCheckedHTML) tags.push("HTML")
+        if (isCheckedCSS) tags.push("CSS")
+        if (isCheckedJavaScript) tags.push("JavaScript")
+        if (isCheckedCSharp) tags.push("C#")
+        if (isCheckedJava) tags.push("Java")
+        if (isCheckedSQL) tags.push("SQL")
+        if (isCheckedReact) tags.push("React")
+        if (isCheckedNetAPI) tags.push(".Net Web API")
+        if (isCheckedTailwind) tags.push("Tailwind")
+        
+        // Set tags count
+        const tagsCount = tags.length
+
+        // Set categories array
+        const categories = []
+        if (isCheckedDevUpdate) categories.push("Dev Update")
+        if (isCheckedPatchNotes) categories.push("Patch Notes")
+        if (isCheckedCodingTalks) categories.push("Coding Talks")
+
+        const query = `*[_type == "post" 
+                            && title match "*${searchText}*" 
+                            && count((tags[]->title)[@ in $tags]) == $tagsCount
+                            && count((categories[]->title)[@ in $categories]) > 0
+                            && ($startDate == '' || publishedAt > $startDate)
+                            && ($endDate == '' || publishedAt < $endDate)] | order(publishedAt desc) {
                 title,
                 slug,
                 description,
@@ -25,12 +76,12 @@ export default function Blog() {
                     alt
                 },
             }`
+        client.fetch(
+            query, {tags, tagsCount, categories, startDate, endDate}
         )
         .then(data=>setPosts(data))
         .catch(console.error)
     }
-
-    //data=>setPosts(data)
 
     return (
         <>
@@ -42,13 +93,18 @@ export default function Blog() {
                 </div>
                 <SubscribePopup 
                 isOpen={showPopup}
-                onClose={()=>setShowPopup(false)}/>
-                <form className='pb-4 flex max-w-xl'>
-                    <input className='border-2 rounded-sm grow mr-4'
-                    type='text' id='search-text'/>
-                    <input className='border-2 rounded-sm hover:bg-gray-300 bg-gray-200 px-2'
-                    type='submit' value='Search'/>
-                </form>
+                Close={()=>setShowPopup(false)}/>
+                <div className='pb-4 flex max-w-xl'>
+                    <span className='pr-4'>Search</span>
+                    <input 
+                    className='border-2 rounded-sm grow mr-4'
+                    type='text' 
+                    id='search-text' 
+                    value={searchText} 
+                    onChange={(event)=>{
+                        setSearchText(event.target.value)
+                    }}/>
+                </div>
                 <section className='lg:flex'>
                     <form id='filter' className='max-w-96 lg:max-w-60'>
                         <span>Filter results</span>
@@ -58,41 +114,97 @@ export default function Blog() {
                                 <div className='flex flex-wrap'>
                                     <div className='pr-4'>
                                         <div>
-                                            <input type='checkbox' name='tags' id='html-tag'/>
+                                            <input
+                                            type='checkbox'
+                                            name='tags'
+                                            id='html-tag'
+                                            checked={isCheckedHTML}
+                                            onChange={(event)=>{
+                                                setIsCheckedHTML(event.target.checked)
+                                            }}/>
                                             <label>HTML</label>
                                         </div>
                                         <div>
-                                            <input type='checkbox' name='tags' id='css-tag'/>
+                                            <input type='checkbox'
+                                            name='tags'
+                                            id='css-tag'
+                                            checked={isCheckedCSS}
+                                            onChange={(event)=>{
+                                                setIsCheckedCSS(event.target.checked)
+                                            }}/>
                                             <label>CSS</label>
                                         </div>
                                         <div>
-                                            <input type='checkbox' name='tags' id='javascript-tag'/>
+                                            <input
+                                            type='checkbox'
+                                            name='tags'
+                                            id='javascript-tag'
+                                            checked={isCheckedJavaScript}
+                                            onChange={(event)=>{
+                                                setIsCheckedJavaScript(event.target.checked)
+                                            }}/>
                                             <label>JavaScript</label>
                                         </div>
                                         <div>
-                                            <input type='checkbox' name='tags' id='c#-tag'/>
+                                            <input type='checkbox'
+                                            name='tags'
+                                            id='c#-tag'
+                                            checked={isCheckedCSharp}
+                                            onChange={(event)=>{
+                                                setIsCheckedCSharp(event.target.checked)
+                                            }}/>
                                             <label>C#</label>
                                         </div>
                                         <div>
-                                            <input type='checkbox' name='tags' id='java-tag'/>
+                                            <input 
+                                            type='checkbox'
+                                            name='tags' 
+                                            id='java-tag' 
+                                            checked={isCheckedJava}
+                                            onChange={(event)=>{
+                                                setIsCheckedJava(event.target.checked)
+                                            }}/>
                                             <label>Java</label>
                                         </div>
                                     </div>
                                     <div>
                                         <div>
-                                            <input type='checkbox' name='tags' id='sql-tag'/>
+                                            <input type='checkbox' 
+                                            name='tags' 
+                                            id='sql-tag' 
+                                            checked={isCheckedSQL}
+                                            onChange={(event)=>{
+                                                setIsCheckedSQL(event.target.checked)
+                                            }}/>
                                             <label>SQL</label>
                                         </div>
                                         <div>
-                                            <input type='checkbox' name='tags' id='react-tag'/>
+                                            <input type='checkbox' 
+                                            name='tags' 
+                                            id='react-tag' 
+                                            checked={isCheckedReact}
+                                            onChange={(event)=>{
+                                                setIsCheckedReact(event.target.checked)
+                                            }}/>
                                             <label>React</label>
                                         </div>
                                         <div>
-                                            <input type='checkbox' name='tags' id='net-web-api-tag'/>
+                                            <input type='checkbox' 
+                                            name='tags' 
+                                            id='net-web-api-tag'
+                                            checked={isCheckedNetAPI}
+                                            onChange={(event)=>{
+                                                setIsCheckedNetAPI(event.target.checked)
+                                            }}/>
                                             <label>.NET Web API</label>
                                         </div>
                                         <div>
-                                            <input type='checkbox' name='tags' id='tailwind-tag'/>
+                                            <input type='checkbox' 
+                                            name='tags' 
+                                            id='tailwind-tag' 
+                                            onChange={(event)=>{
+                                                setIsCheckedTailwind(event.target.checked)
+                                            }}/>
                                             <label>Tailwind</label>
                                         </div>
                                     </div>
@@ -102,15 +214,34 @@ export default function Blog() {
                             <label htmlFor='categories'>Categories</label>
                                 <div className='flex flex-wrap lg:flex-col'>
                                     <div className='pr-2'>
-                                        <input type='checkbox' name='categories' id='dev-update-category'/>
+                                        <input 
+                                        type='checkbox' 
+                                        name='categories' 
+                                        id='dev-update-category' 
+                                        checked={isCheckedDevUpdate}
+                                        onChange={(event)=>{
+                                            setIsCheckedDevUpdate(event.target.checked)
+                                        }}/>
                                         <label>Dev update</label>
                                     </div>
                                     <div className='pr-2'>
-                                        <input type='checkbox' name='categories' id='patch-notes-category'/>
+                                        <input type='checkbox' 
+                                        name='categories' 
+                                        id='patch-notes-category' 
+                                        checked={isCheckedPatchNotes}
+                                        onChange={(event)=>{
+                                            setIsCheckedPatchNotes(event.target.checked)
+                                        }}/>
                                         <label>Patch notes</label>
                                     </div>
                                     <div>
-                                        <input type='checkbox' name='categories' id='coding-talks-category'/>
+                                        <input type='checkbox' 
+                                        name='categories' 
+                                        id='coding-talks-category' 
+                                        checked={isCheckedCodingTalks}
+                                        onChange={(event)=>{
+                                            setIsCheckedCodingTalks(event.target.checked)
+                                        }}/>
                                         <label>Coding talks</label>
                                     </div>
                                 </div>
@@ -119,14 +250,26 @@ export default function Blog() {
                                 <label htmlFor='date-range'>Date range</label>
                                 <div className='flex flex-wrap pt-2'>
                                     <div className='flex justify-between mr-8 w-full max-w-40'>
-                                        <label htmlFor='start-date' className='pr-2'>From</label>
-                                        <input className='border-2 rounded-sm w-24'
-                                        type='text' id='start-date'/>
+                                        <label htmlFor='start-date' className='pr-2'>After</label>
+                                        <input 
+                                        className='border-2 rounded-sm w-24'
+                                        type='text' 
+                                        id='start-date'
+                                        value={startDate} 
+                                        onChange={(event)=>{
+                                            setStartDate(event.target.value)
+                                        }}/>
                                     </div>
                                     <div className='flex justify-between mr-8 w-full max-w-40'>
-                                        <label htmlFor='end-date' className='pr-2'>To</label>
-                                        <input className='border-2 rounded-sm w-24'
-                                        type='text' id='end-date'/>
+                                        <label htmlFor='end-date' className='pr-2'>Before</label>
+                                        <input 
+                                        className='border-2 rounded-sm w-24'
+                                        type='text' 
+                                        id='end-date'
+                                        value={endDate} 
+                                        onChange={(event)=>{
+                                            setEndDate(event.target.value)
+                                        }}/>
                                     </div>
                                 </div>
                             </fieldset>

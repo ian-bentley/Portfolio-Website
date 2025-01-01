@@ -1,6 +1,6 @@
 
 
-export default function SubscribePopup({isOpen, onClose}) {
+export default function SubscribePopup({isOpen, Close}) {
     if (!isOpen) return null
 
     const Subscribe = () => {
@@ -9,8 +9,14 @@ export default function SubscribePopup({isOpen, onClose}) {
 
     return (
         <>
-            <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'
-            onClick={()=>onClose()}>
+            <div id="background" 
+            className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'
+            onClick={(event)=>{
+                const background = document.getElementById("background")
+                if (event.target == background) {
+                    Close()
+                }
+            }}>
                 <div className='max-w-80 h-54 m-4 bg-white p-4'>
                     <form className='flex flex-col p-4'>
                         <label className='pb-4'>
