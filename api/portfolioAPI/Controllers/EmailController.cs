@@ -24,7 +24,8 @@ namespace portfolioAPI.Controllers
         {
             email.To = _configuration.GetValue<string>("EmailServiceConfig:WebsiteEmail");
             _emailService.SendEmailAsync(email);
-            JsonResult jsonResult = new JsonResult("Contact Email Sent");
+            JsonResult jsonResult = new JsonResult(email);
+            //JsonResult jsonResult = new JsonResult("Contact Email Sent");
             return Ok(jsonResult);
         }
     }

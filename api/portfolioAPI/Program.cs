@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Serialization;
 using portfolioAPI.Services.EmailService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,15 @@ builder.Services.AddOpenApi();
 // Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+//JSON Serializer
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore).AddNewtonsoftJson(
+    options=>options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
 var app = builder.Build();
+
+//Enable CORS
+app.UseCors(c=>c.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
