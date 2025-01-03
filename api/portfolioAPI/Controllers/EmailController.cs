@@ -20,9 +20,22 @@ namespace portfolioAPI.Controllers
         [HttpPost]
         [Route("ContactMe")]
         [Consumes("application/json")]
-        public IActionResult ContactMe([FromBody] Email email)
+        public IActionResult ContactMe([FromBody] ContactMessage contactMessage)
         {
-            email.To = _configuration.GetValue<string>("EmailServiceConfig:WebsiteEmail");
+
+            Email email = new()
+            {
+                From = contactMessage.Email,
+                To = _configuration.GetValue<string>("EmailServiceConfig:WebsiteEmail"),
+                Subject = contactMessage.Reason,
+                Body = string.Format(@"Name: {0}
+Company: {1}
+Contact Email: {2}
+Contact Number: {3}
+
+{4}", contactMessage.Name, contactMessage.Company, contactMessage.Email, contactMessage.Phone, contactMessage.Message)
+            };
+            
             _emailService.SendEmailAsync(email);
             JsonResult jsonResult = new JsonResult(email);
             //JsonResult jsonResult = new JsonResult("Contact Email Sent");
