@@ -1,9 +1,18 @@
 import { client } from '../../sanityClient'
 import config from '../../../portfolio.config.json'
 
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const query = `*[_type == "post"]`
-client.listen(query).subscribe(update=>{
+const params = {visibility: "query"} // Wait until post is visibile to queries to run the function
+client.listen(query, params).subscribe(async update=>{
+    await wait(5000)
+    console.log("Listener: Waited 5s after detecting a new post")
+    console.log(update)
     if (update.transition == "appear") { // We only want to update when posts are created, not when updated or removed
+        console.log('waited 5s')
         client.fetch(`*[ _type == "post" && _id == "${update.documentId}"] {
                 title,
                 slug,

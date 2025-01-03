@@ -67,11 +67,13 @@ Contact Number: {3}
                     From = _configuration.GetValue<string>("EmailServiceConfig:WebsiteEmail"),
                     To = subscriber.Email,
                     Subject = "A new blog post is here!",
-                    Body = string.Format(@"Title: {0}
-Author: {1}
-Image: {2} {3}
-Description: {4}
-Link: {5}", post.Title, post.Author, post.ImageUrl, post.ImageAlt, post.Description, post.Link)
+                    Body = string.Format(@"<div style='padding: 10px;'>
+                <img src='{2}' alt='{3}' style='width: 80%; max-width: 400px'/>
+                <h1 style='margin: 0px;'>{0}</h1>
+                <p style='margin: 0px; font-style: italic;'>By {1}</p>
+                <p style='margin: 0px; padding: 8px 0px'>{4}</p>
+                <a href='{5}'>Read more</a>
+            </div>", post.Title, post.Author, post.ImageUrl, post.ImageAlt, post.Description, post.Link)
                 };
 
                 _emailService.SendEmailAsync(email);

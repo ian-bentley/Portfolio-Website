@@ -26,8 +26,8 @@ namespace portfolioAPI.Services.EmailService
 
             // User builder to make the email body
             var builder = new BodyBuilder();
-            builder.TextBody = email.Body;
-            //builder.HtmlBody = ""; //ADD AN HTML BODY VERSION
+            builder.HtmlBody = email.Body;
+            //builder.TextBody = email.Body; //ADD AN TEXT BODY VERSION
 
             // Create a new mime message and add the from, to, subject, and body
             var mimeMessage = new MimeMessage();
