@@ -38,8 +38,46 @@ Contact Number: {3}
             
             _emailService.SendEmailAsync(email);
             JsonResult jsonResult = new JsonResult(email);
-            //JsonResult jsonResult = new JsonResult("Contact Email Sent");
             return Ok(jsonResult);
+        }
+
+        [HttpPost]
+        [Route("NotifySubscribers")]
+        public IActionResult NotifySubscribers([FromBody] Post post)
+        {
+            Queue<Subscriber> subscribers = new Queue <Subscriber>();
+            Subscriber testSub1 = new()
+            {
+                Id = "1",
+                Email = "ibentley981203@gmail.com"
+            };
+            Subscriber testSub2 = new()
+            {
+                Id = "2",
+                Email = "zatrat_123@yahoo.com"
+            };
+
+            subscribers.Enqueue(testSub1);
+            subscribers.Enqueue(testSub2);
+
+            foreach (var subscriber in subscribers)
+            {
+                Email email = new()
+                {
+                    From = _configuration.GetValue<string>("EmailServiceConfig:WebsiteEmail"),
+                    To = subscriber.Email,
+                    Subject = "A new blog post is here!",
+                    Body = string.Format(@"Title: {0}
+Author: {1}
+Image: {2} {3}
+Description: {4}
+Link: {5}", post.Title, post.Author, post.ImageUrl, post.ImageAlt, post.Description, post.Link)
+                };
+
+                _emailService.SendEmailAsync(email);
+            }
+
+            return Ok();
         }
     }
 }
