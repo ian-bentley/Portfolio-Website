@@ -45,7 +45,7 @@ function App() {
           <Route path='subscribe'>
             <Route index element={<Navigate to='/404'/>}/>
             <Route path='success' element={<SubscribeSuccess/>}/>
-            <Route path='validation' element={<SubscribeValidation/>}/>
+            <Route path='validation/:id' element={<SubscribeValidation/>}/>
           </Route>
         </Route>
         <Route path='*' element={<Navigate to='/404'/>}/>

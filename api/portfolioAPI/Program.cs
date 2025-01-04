@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Serialization;
 using portfolioAPI.Services.EmailService;
+using portfolioAPI.Services.HashService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddOpenApi();
 
 // Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
+// hash Service
+builder.Services.AddScoped<IHashService, HashService>();
 
 //JSON Serializer
 builder.Services.AddControllers().AddNewtonsoftJson(options =>

@@ -29,15 +29,15 @@ client.listen(query, params).subscribe(async update=>{
         .then(data=>{
             const newPost = data[0]
             console.log(newPost)
-            console.log("Title: "+newPost.title)
-            console.log("Slug: "+newPost.slug.current)
-            console.log("Author: "+newPost.authorName)
-            console.log("Description: "+newPost.description)
-            console.log("Image URL: "+newPost.mainImage.asset.url)
-            console.log("Image alt: "+newPost.mainImage.alt)
+            console.log('Title: '+newPost.title)
+            console.log('Slug: '+newPost.slug.current)
+            console.log('Author: '+newPost.authorName)
+            console.log('Description: '+newPost.description)
+            console.log('Image URL: '+newPost.mainImage.asset.url)
+            console.log('Image alt: '+newPost.mainImage.alt)
 
-            fetch(config.api.url+"Email/NotifySubscribers", {
-                method:"POST",
+            fetch(config.api.url+'Email/NotifySubscribers', {
+                method:'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
