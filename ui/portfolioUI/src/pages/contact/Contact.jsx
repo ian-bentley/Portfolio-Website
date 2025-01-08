@@ -88,9 +88,9 @@ export default function Contact() {
             <div id='contact-boxes' className='flex flex-wrap justify-center py-10'>
                 <div id='page-links' className='px-20 pb-8 text-center'>
                     <h1 className='pb-4'>LINKS TO MY PAGES!</h1>
-                    <a className='border-2 rounded-sm w-full hover:bg-gray-300 bg-gray-200 p-1 px-2 mx-4'
+                    <a className='border-2 rounded-md hover:bg-gray-300 bg-gray-200 px-4 p-1 mx-4'
                     href='https://www.linkedin.com/in/ian-bentley-658b4421b/'>LinkedIn</a>
-                    <a className='border-2 rounded-sm w-full hover:bg-gray-300 bg-gray-200 p-1 px-2 mx-4'
+                    <a className='border-2 rounded-md hover:bg-gray-300 bg-gray-200 px-4 p-1 mx-4'
                     href='https://github.com/ian-bentley'>GitHub</a>
                 </div>
                 <div id='contact-info' className='px-20 pb-8 text-center'>

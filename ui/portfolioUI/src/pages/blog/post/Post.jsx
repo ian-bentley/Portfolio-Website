@@ -35,11 +35,12 @@ export default function Post() {
                 <article>
                     <header className='pb-4'>
                         <img
+                        className='pb-4'
                         src={post.mainImage.asset.url}
                         alt={post.mainImage.alt}/>
                         <div>
                             <h1 className='font-semibold text-2xl'>{post.title}</h1>
-                            <p>By {post.authorName}</p>
+                            <p className='italic'>By {post.authorName}</p>
                         </div>
                     </header>
                     <div className='prose lg:prose-xl max-w-full'>

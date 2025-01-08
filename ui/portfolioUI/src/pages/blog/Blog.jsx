@@ -66,8 +66,10 @@ export default function Blog() {
                             && ($startDate == '' || publishedAt > $startDate)
                             && ($endDate == '' || publishedAt < $endDate)] | order(publishedAt desc) {
                 title,
+                "authorName": author->name,
                 slug,
                 description,
+                publishedAt,
                 mainImage{
                     asset->{
                         _id,
@@ -100,6 +102,7 @@ export default function Blog() {
                     className='border-2 rounded-sm grow mr-4'
                     type='text' 
                     id='search-text' 
+                    placeholder='Search for titles here...'
                     value={searchText} 
                     onChange={(event)=>{
                         setSearchText(event.target.value)
@@ -249,24 +252,26 @@ export default function Blog() {
                             <fieldset>
                                 <label htmlFor='date-range'>Date range</label>
                                 <div className='flex flex-wrap pt-2'>
-                                    <div className='flex justify-between mr-8 w-full max-w-40'>
+                                    <div className='flex justify-between mr-8 w-full max-w-44'>
                                         <label htmlFor='start-date' className='pr-2'>After</label>
                                         <input 
-                                        className='border-2 rounded-sm w-24'
+                                        className='border-2 rounded-sm w-28'
                                         type='text' 
                                         id='start-date'
                                         value={startDate} 
+                                        placeholder='YYYY/MM/DD'
                                         onChange={(event)=>{
                                             setStartDate(event.target.value)
                                         }}/>
                                     </div>
-                                    <div className='flex justify-between mr-8 w-full max-w-40'>
+                                    <div className='flex justify-between mr-8 w-full max-w-44'>
                                         <label htmlFor='end-date' className='pr-2'>Before</label>
                                         <input 
-                                        className='border-2 rounded-sm w-24'
+                                        className='border-2 rounded-sm w-28'
                                         type='text' 
                                         id='end-date'
                                         value={endDate} 
+                                        placeholder='YYYY/MM/DD'
                                         onChange={(event)=>{
                                             setEndDate(event.target.value)
                                         }}/>
@@ -280,6 +285,8 @@ export default function Blog() {
                             <PostCard
                             key={index}
                             title={post.title}
+                            author={post.authorName}
+                            date={post.publishedAt}
                             imageUrl={post.mainImage.asset.url}
                             imageAlt={post.mainImage.alt}
                             description={post.description}

@@ -6,13 +6,18 @@ function wait(ms) {
 }
 
 const query = `*[_type == "post"]`
-const params = {visibility: "query"} // Wait until post is visibile to queries to run the function
-client.listen(query, params).subscribe(async update=>{
-    await wait(5000)
-    console.log("Listener: Waited 5s after detecting a new post")
-    console.log(update)
+// const params = {visibility: "query"} // Wait until post is visibile to queries to run the function
+// client.listen(query).subscribe(update=>{
+//     if (update.transition == "appear") { 
+//         console.log(update)
+//     }
+// })
+client.listen(query).subscribe(async update=>{
     if (update.transition == "appear") { // We only want to update when posts are created, not when updated or removed
-        console.log('waited 5s')
+        await wait(5000)
+        console.log("Listener: Waited 5s after detecting a new post")
+        console.log(update)
+
         client.fetch(`*[ _type == "post" && _id == "${update.documentId}"] {
                 title,
                 slug,

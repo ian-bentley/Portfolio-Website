@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Data;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using portfolioAPI.Models;
 using portfolioAPI.Services.EmailService;
 
@@ -46,22 +49,38 @@ Contact Number: {3}
         public IActionResult NotifySubscribers([FromBody] Post post)
         {
             Queue<Subscriber> subscribers = new Queue <Subscriber>();
-            Subscriber testSub1 = new()
-            {
-                Id = "1",
-                Email = "ibentley981203@gmail.com"
-            };
-            Subscriber testSub2 = new()
-            {
-                Id = "2",
-                Email = "zatrat_123@yahoo.com"
-            };
 
-            subscribers.Enqueue(testSub1);
-            subscribers.Enqueue(testSub2);
-
-            foreach (var subscriber in subscribers)
+            // Get subscriber data
+            string query = "select * from subscribers";
+            DataTable dataTable = new DataTable();
+            string sqlDatasource = _configuration.GetConnectionString("portfolioDB");
+            SqlDataReader sqlDataReader;
+            using (SqlConnection sqlConnection = new SqlConnection(sqlDatasource))
             {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                {
+                    sqlDataReader = sqlCommand.ExecuteReader();
+                    dataTable.Load(sqlDataReader);
+                    sqlDataReader.Close();
+                    sqlConnection.Close();
+                }
+            }
+
+            foreach (var subscriber in dataTable.AsEnumerable())
+            {
+                Subscriber newSubscriber = new()
+                {
+                    Email = Convert.ToString(subscriber["email"]),
+                    HashId = Convert.ToString(subscriber["hash_id"])
+                };
+                subscribers.Enqueue(newSubscriber);
+            }
+
+            while (subscribers.Count != 0)
+            {
+                Subscriber subscriber = subscribers.Dequeue();
+
                 Email email = new()
                 {
                     From = _configuration.GetValue<string>("EmailServiceConfig:WebsiteEmail"),

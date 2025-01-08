@@ -57,7 +57,7 @@ namespace portfolioAPI.Controllers
                 To = subscriber.Email,
                 Subject = "Please Verify Your Email",
                 Body = string.Format(@"<p>You have subscribed to http://ianbentley.me/blog. If you did not make this subscription please disregard this email. Otherwise, use the link below to subscribe.</p>
-<a href='http://localhost:5173/blog/subscribe/validation/{0}'>http://localhost:5173/blog/subscribe/validation/{0}</a>", hashId)
+<a href='http://localhost:5173/blog/subscribe/validation/{0}/{1}'>http://localhost:5173/blog/subscribe/validation/{0}/{1}</a>", subscriber.Email, hashId)
             };
             _emailService.SendEmailAsync(email);
 
