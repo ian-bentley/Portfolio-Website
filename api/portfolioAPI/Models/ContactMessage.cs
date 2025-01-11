@@ -1,12 +1,25 @@
-﻿namespace portfolioAPI.Models
+﻿
+
+using System.ComponentModel.DataAnnotations;
+
+namespace portfolioAPI.Models
 {
     public class ContactMessage
     {
-        public required string Name { get; set; }
-        public required string Email { get; set; }
-        public required string Reason { get; set; }
-        public required string Message { get; set; }
+        [Required]
+        public string? Name { get; set; }
 
+        [Required]
+        [EmailAddress]
+        public string? Email { get; set; }
+
+        [Required]
+        public string? Reason { get; set; }
+
+        [Required]
+        public string? Message { get; set; }
+
+        [Phone]
         public string? Phone { get; set; }
 
         public string? Company { get; set; }

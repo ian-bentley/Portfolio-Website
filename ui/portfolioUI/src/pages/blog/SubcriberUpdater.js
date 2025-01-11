@@ -61,6 +61,6 @@ client.listen(query).subscribe(async update=>{
                 }
                 console.log(res)
             }).catch(error=>console.log(error))
-        })
+        }).catch(error=>console.log(error))
     }
 })

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
 export default function Contact() {
+    const contactErrorMessage = 'Error: Could not send contact email to server. Please try again later. If the problem persists, please reach out to the website administrator'
+
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [reason, setReason] = useState('')
@@ -15,19 +17,10 @@ export default function Contact() {
     const [emailInvalid, setEmailInvalid] = useState(true)
     const [reasonInvalid, setReasonInvalid] = useState(true)
     const [messageInvalid, setMessageInvalid] = useState(true)
+    const [hasContactError, setHasContactError] = useState(false)
     const navigate = useNavigate()
 
     useEffect(()=>{
-
-        // If any field is invalid, set to true otherwise set to false
-        if (nameInvalid || emailInvalid || reasonInvalid || messageInvalid)
-        {
-            setAllowSend(false)
-        }
-        else {
-            setAllowSend(true)
-        }
-
         // set name validation, name cannot be blank
         if (name == '')
         {
@@ -57,11 +50,20 @@ export default function Contact() {
             setMessageInvalid(false)
         }
 
+        // If any field is invalid, set to true otherwise set to false
+        if (nameInvalid || emailInvalid || reasonInvalid || messageInvalid)
+        {
+            setAllowSend(false)
+        }
+        else {
+            setAllowSend(true)
+        }
     }, [name, email, reason, message])
 
     const sendContactEmail = (event) => {
         event.preventDefault()
-        fetch(config.api.url+"Email/ContactMe", {
+        const url = config.api.url+"Email/ContactMe2"
+        fetch(url, {
             method:"POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -74,13 +76,31 @@ export default function Contact() {
                 company: company,
                 phone: phone
             })
-        }).then(res=> {
-            if (!res.ok) {
-                throw res.status
+        }).then(async res=> {
+            console.log('Server response received')
+            if (!res.ok)
+            {
+                if (res.status == '400') {
+                    const response = await res.json()
+                    console.error('Server response error: (400) '+response.title)
+                    for (const key in response.errors) {
+                        response.errors[key].forEach(error=>console.error(error))
+                    }
+                } else if (res.status == '404') {
+                    console.error('Error 404: '+url+' could not be found. Verify the client is requesting the correct address.')
+                } else if (res.status == '405') {
+                    console.error('Error 405: '+url+' expects a POST method. Please verify the method type being sent by the client')
+                }
+                
+                throw Error()
             }
 
-            navigate("/contact/success")
-        }).catch(error=>console.log(error))
+            console.log('Response ok! Contact email has been sent by the server.')
+            //navigate("/contact/success")
+        }).catch(()=>{
+            console.error(contactErrorMessage)
+            setHasContactError(true)
+        })
     }
 
     return (
@@ -183,9 +203,10 @@ export default function Contact() {
                     </div>
                     <button
                     className={`border-2 rounded-sm w-full ${allowSend? 'hover:bg-gray-300' : 'text-gray-400'} bg-gray-200`}
-                    disabled={!allowSend}
+                    // disabled={!allowSend}
                     onClick={(event)=>sendContactEmail(event)}>Send</button>
                 </fieldset>
+                { hasContactError && <p className='text-red-600'>{contactErrorMessage}</p> }
             </form>
         </>
     )

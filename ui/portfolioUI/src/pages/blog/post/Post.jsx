@@ -39,7 +39,7 @@ export default function Post() {
                         src={post.mainImage.asset.url}
                         alt={post.mainImage.alt}/>
                         <div>
-                            <h1 className='font-semibold text-2xl'>{post.title}</h1>
+                            <h1 className='font-semibold text-3xl'>{post.title}</h1>
                             <p className='italic'>By {post.authorName}</p>
                         </div>
                     </header>

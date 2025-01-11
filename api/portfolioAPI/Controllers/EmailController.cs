@@ -38,10 +38,8 @@ Contact Number: {3}
 
 {4}", contactMessage.Name, contactMessage.Company, contactMessage.Email, contactMessage.Phone, contactMessage.Message)
             };
-            
-            _emailService.SendEmailAsync(email);
-            JsonResult jsonResult = new JsonResult(email);
-            return Ok(jsonResult);
+            //_emailService.SendEmailAsync(email);
+            return Ok();
         }
 
         [HttpPost]

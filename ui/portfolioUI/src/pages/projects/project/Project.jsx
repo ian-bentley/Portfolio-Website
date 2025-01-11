@@ -50,23 +50,12 @@ export default function Project() {
                 <a className='border-2 rounded-md hover:bg-gray-300 bg-gray-200 p-1 px-4 mx-4'
                 href={project.githubLink}>View on GitHub</a>
             </div>
-            <div className='prose lg:prose-xl max-w-full pb-4'>
+            <div className='prose lg:prose-xl max-w-full pb-20'>
                 <SanityBlockContent
                 blocks={project.body}
                 projectId="zr1c570a"
                 dataset="production"
                 />
-            </div>
-            <div id='links-to-posts' className='pb-20'>
-                <div id='list-of-posts'>
-                    <PostCard
-                    title='Post title'
-                    imageUrl=''
-                    imageAlt='Blog post image'
-                    description='A short decription of the post'
-                    slug='post-1'/>
-                </div>
-                <Link to='/blog'>See more</Link>
             </div>
         </>
     )
