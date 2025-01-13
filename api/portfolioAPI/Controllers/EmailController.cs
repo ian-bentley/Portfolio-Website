@@ -38,7 +38,7 @@ Contact Number: {3}
 
 {4}", contactMessage.Name, contactMessage.Company, contactMessage.Email, contactMessage.Phone, contactMessage.Message)
             };
-            //_emailService.SendEmailAsync(email);
+            _emailService.SendEmailAsync(email);
             return Ok();
         }
 

@@ -21,48 +21,110 @@ export default function Contact() {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        // set name validation, name cannot be blank
+        // *******************************************************************************
+        // * Field Validation Step 1: Validate fields and set states                     *
+        // *******************************************************************************
+        console.log('Field Validation Step 1: Validate fields')
+        validateFields()
+    }, [name, email, reason, message])
+
+    useEffect(()=>{
+        // *******************************************************************************************
+        // * Field Validation Step 2: Check all if all validation states are true and set allowSend  *
+        // *******************************************************************************************
+        console.log('Field Validation Step 2: Check all if all validation states are true and set allowSend')
+        if (allFieldsValid()) {
+            // *********************************************************
+            // * Field Validation Step 2b: Set allowSend               *
+            // *********************************************************
+            setAllowSend(true)
+            console.log('Field Validation Step 2b: allowSend set to true')
+            return
+        }
+        setAllowSend(false)
+        console.log('Field Validation Step 2b: allowSend set to false')
+    }, [nameInvalid, emailInvalid, reasonInvalid, messageInvalid])
+
+    const validateFields = ()=> {
+        // *******************************************************************************
+        // * Field Validation Step 1a: Validate name, name cannot be blank               *
+        // *******************************************************************************
+        console.log('Field Validation Step 1a: Validating name.')
+        console.log('name: '+name)
         if (name == '')
         {
             setNameInvalid(true)
+            console.log('Field Validation Step 1a: Failed. Name is invalid.')
         } else {
             setNameInvalid(false)
+            console.log('Field Validation Step 1a: Success! Name is valid.')
         }
-
-        // set email validation, email cannot be blank and must be valid address format
+        console.log('nameInvalid: '+nameInvalid)
+        // *******************************************************************************
+        // * Field Validation Step 1b: Validate email, email cannot be blank             *
+        // *******************************************************************************
+        console.log('Field Validation Step 1b: Validating email.')
+        console.log('email: '+email)
         if (email == '') {
             setEmailInvalid(true)
+            console.log('Field Validation Step 1b: Failed. Email is invalid.')
         } else {
             setEmailInvalid(false)
+            console.log('Field Validation Step 1b: Success! Email is valid.')
         }
+        console.log('emailInvalid: '+emailInvalid)
 
-        // set reason validation, reason must be selected
+        // *******************************************************************************
+        // * Field Validation Step 1c: Validate reason, reason must be selected          *
+        // *******************************************************************************
+        console.log('Field Validation Step 1c: Validating reason.')
+        console.log('reason: '+reason)
         if (reason == '') {
             setReasonInvalid(true)
+            console.log('Field Validation Step 1c: Failed. Reason is invalid.')
         } else {
             setReasonInvalid(false)
+            console.log('Field Validation Step 1c: Success! Reason is valid.')
         }
+        console.log('reasonInvalid: '+reasonInvalid)
 
-        // set message validation, message cannot be blank
+        // *******************************************************************************
+        // * Field Validation Step 1d: Validate message, message cannot be blank         *
+        // *******************************************************************************
+        console.log('Field Validation Step 1d: Validating message.')
+        console.log('message: '+message)
         if (message == '') {
             setMessageInvalid(true)
+            console.log('Field Validation Step 1d: Failed. Message is invalid.')
         } else {
             setMessageInvalid(false)
+            console.log('Field Validation Step 1d: Success! Message is valid.')
         }
+        console.log('messageInvalid: '+messageInvalid)
+    }
 
-        // If any field is invalid, set to true otherwise set to false
+    const allFieldsValid = () => {
+        // **************************************************************************
+        // * Field Validation Step 2a: Check if all validation states are true  *
+        // **************************************************************************
+        console.log('Field Validation Step 2a: Check if all validation states are true.')
+        
         if (nameInvalid || emailInvalid || reasonInvalid || messageInvalid)
         {
-            setAllowSend(false)
+            console.log('Field Validation Step 2a: Failed. At least one field state is invalid.')
+            console.log('nameInvalid: '+nameInvalid)
+            console.log('emailInvalid: '+emailInvalid)
+            console.log('reasonInvalid: '+reasonInvalid)
+            console.log('messageInvalid: '+messageInvalid)
+            return false
         }
-        else {
-            setAllowSend(true)
-        }
-    }, [name, email, reason, message])
+        console.log('Field Validation Step 2a: Success! All field states are valid.')
+        return true
+    }
 
     const sendContactEmail = (event) => {
         event.preventDefault()
-        const url = config.api.url+"Email/ContactMe2"
+        const url = config.api.url+"Email/ContactMe"
         fetch(url, {
             method:"POST",
             headers: {
@@ -203,7 +265,7 @@ export default function Contact() {
                     </div>
                     <button
                     className={`border-2 rounded-sm w-full ${allowSend? 'hover:bg-gray-300' : 'text-gray-400'} bg-gray-200`}
-                    // disabled={!allowSend}
+                    disabled={!allowSend}
                     onClick={(event)=>sendContactEmail(event)}>Send</button>
                 </fieldset>
                 { hasContactError && <p className='text-red-600'>{contactErrorMessage}</p> }
