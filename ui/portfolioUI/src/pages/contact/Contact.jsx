@@ -59,7 +59,6 @@ export default function Contact() {
             setNameInvalid(false)
             console.log('Field Validation Step 1a: Success! Name is valid.')
         }
-        console.log('nameInvalid: '+nameInvalid)
         // *******************************************************************************
         // * Field Validation Step 1b: Validate email, email cannot be blank             *
         // *******************************************************************************
@@ -72,7 +71,6 @@ export default function Contact() {
             setEmailInvalid(false)
             console.log('Field Validation Step 1b: Success! Email is valid.')
         }
-        console.log('emailInvalid: '+emailInvalid)
 
         // *******************************************************************************
         // * Field Validation Step 1c: Validate reason, reason must be selected          *
@@ -86,7 +84,6 @@ export default function Contact() {
             setReasonInvalid(false)
             console.log('Field Validation Step 1c: Success! Reason is valid.')
         }
-        console.log('reasonInvalid: '+reasonInvalid)
 
         // *******************************************************************************
         // * Field Validation Step 1d: Validate message, message cannot be blank         *
@@ -100,22 +97,22 @@ export default function Contact() {
             setMessageInvalid(false)
             console.log('Field Validation Step 1d: Success! Message is valid.')
         }
-        console.log('messageInvalid: '+messageInvalid)
     }
 
     const allFieldsValid = () => {
         // **************************************************************************
-        // * Field Validation Step 2a: Check if all validation states are true  *
+        // * Field Validation Step 2a: Check if all validation states are true      *
         // **************************************************************************
         console.log('Field Validation Step 2a: Check if all validation states are true.')
+
+        console.log('nameInvalid: '+nameInvalid)
+        console.log('emailInvalid: '+emailInvalid)
+        console.log('reasonInvalid: '+reasonInvalid)
+        console.log('messageInvalid: '+messageInvalid)
         
         if (nameInvalid || emailInvalid || reasonInvalid || messageInvalid)
         {
             console.log('Field Validation Step 2a: Failed. At least one field state is invalid.')
-            console.log('nameInvalid: '+nameInvalid)
-            console.log('emailInvalid: '+emailInvalid)
-            console.log('reasonInvalid: '+reasonInvalid)
-            console.log('messageInvalid: '+messageInvalid)
             return false
         }
         console.log('Field Validation Step 2a: Success! All field states are valid.')
