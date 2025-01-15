@@ -80,7 +80,7 @@ Contact Number: {3}
                 // ******************************************************************
                 // * Sending Contact Email Step 2c: Validate subject                *
                 // ******************************************************************
-                Debug.WriteLine("Sending Contact Email Step 2a: Validate subject");
+                Debug.WriteLine("Sending Contact Email Step 2c: Validate subject");
                 if (email.Subject == "")
                 {
                     Debug.WriteLine("Failed. Subject is blank");
@@ -92,10 +92,10 @@ Contact Number: {3}
                 // * Sending Contact Email Step 2d: Validate body                   *
                 // ******************************************************************
                 Debug.WriteLine("Sending Contact Email Step 2d: Validate body");
-                if (email.To == "")
+                if (email.Body == "")
                 {
                     Debug.WriteLine("Failed. Body is blank");
-                    throw new Exception("Sending Contact Email Step 2a: ERROR! Body is blank");
+                    throw new Exception("Sending Contact Email Step 2d: ERROR! Body is blank");
                 }
                 Debug.WriteLine("Success!. Body is valid");
 
