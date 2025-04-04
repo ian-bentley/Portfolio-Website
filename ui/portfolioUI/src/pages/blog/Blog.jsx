@@ -4,8 +4,10 @@ import SubscribePopup from './SubcribePopup'
 import { client } from '../../sanityClient'
 
 export default function Blog() {
+    const sanityErrorMessage = "Error: There was a problem getting the post data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
     const [showPopup, setShowPopup] = useState(null)
     const [posts, setPosts] = useState(null)
+    const [hasSanityError, setHasSanityError] = useState(false)
 
     // search bar text
     const [searchText, setSearchText] = useState('')
@@ -59,7 +61,7 @@ export default function Blog() {
         if (isCheckedPatchNotes) categories.push("Patch Notes")
         if (isCheckedCodingTalks) categories.push("Coding Talks")
 
-        const query = `*[_type == "post" 
+        const query = `*[_type == "post" && !(_id in path('drafts.**'))
                             && title match "*${searchText}*" 
                             && count((tags[]->title)[@ in $tags]) == $tagsCount
                             && count((categories[]->title)[@ in $categories]) > 0
@@ -82,7 +84,10 @@ export default function Blog() {
             query, {tags, tagsCount, categories, startDate, endDate}
         )
         .then(data=>setPosts(data))
-        .catch(console.error)
+        .catch(()=>{
+            console.error(sanityErrorMessage)
+            setHasSanityError(true)
+        })
     }
 
     return (
@@ -281,6 +286,7 @@ export default function Blog() {
                         </fieldset>
                     </form>
                     <div id='post-list' className='px-6 pt-10'>
+                        {!posts && <div>{hasSanityError? "Loading..." : <p className='text-red-600'>{sanityErrorMessage}</p>}</div>}
                         {posts && posts.map((post,index)=>(
                             <PostCard
                             key={index}
@@ -292,6 +298,7 @@ export default function Blog() {
                             description={post.description}
                             slug={post.slug.current}/>
                         ))}
+                        {posts && posts.length == 0 && <p>No posts match the current search.</p>}
                     </div>
                 </section>
             </main>

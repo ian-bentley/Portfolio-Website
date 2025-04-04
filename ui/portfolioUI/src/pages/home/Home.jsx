@@ -5,12 +5,16 @@ import ProjectCard from '../projects/ProjectCard'
 import PostCard from '../blog/PostCard'
 
 export default function Home() {
+    const sanityPostErrorMessage = "Error: There was a problem getting the post data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
+    const sanityProjectErrorMessage = "Error: There was a problem getting the project data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
     const skillList = [
         'C#', 'SQL', 'PowerShell', 'JS', 'Git', 'React', '.Net API', 'Azure', 'Tailwind',
         'Sanity', 'SSMS', 'VS Code', 'Visual Studio', 'IntelliJ', 'MS Access', 'GitHub'
     ]
     const [projects, setProjects] = useState(null)
     const [posts, setPosts] = useState(null)
+    const [hasPostSanityError, setHasPostSanityError] = useState(false)
+    const [hasProjectSanityError, setHasProjectSanityError] = useState(false)
 
     useEffect(()=>{
         getProjects()
@@ -19,7 +23,7 @@ export default function Home() {
 
     const getProjects = () => {
         client.fetch(
-            `*[_type == "project"][0..1]{
+            `*[_type == "project"  && !(_id in path('drafts.**'))][0..1]{
                 title,
                 slug,
                 description,
@@ -33,12 +37,15 @@ export default function Home() {
             }`
         )
         .then(data=>setProjects(data))
-        .catch(console.error)
+        .catch(()=>{
+            console.error(sanityProjectErrorMessage)
+            setHasProjectSanityError(true)
+        })
     }
 
     const getPosts = () => {
         client.fetch(
-            `*[_type == "post"][0..1]{
+            `*[_type == "post" && !(_id in path('drafts.**'))][0..1]{
                 title,
                 slug,
                 description,
@@ -52,7 +59,10 @@ export default function Home() {
             }`
         )
         .then(data=>setPosts(data))
-        .catch(console.error)
+        .catch(()=>{
+            console.error(sanityPostErrorMessage)
+            setHasPostSanityError(true)
+        })
     }
 
     return(
@@ -80,7 +90,7 @@ export default function Home() {
                 </section>
                 <section id='projects-intro' className='pb-16'>
                     <h1 className='text-2xl font-semibold pb-4'>Projects</h1>
-                    <p>
+                    <p className='pb-10'>
                         All of my projects are posted on this website. You can view all of them in the Projects 
                         page. This page contains details about each project describing their purpose, the 
                         development process, and the technology used
@@ -95,11 +105,13 @@ export default function Home() {
                             description={project.description}
                             slug={project.slug.current}/>
                         ))}
-                        <Link 
+                        {projects && projects.length == 0 && <p>No projects yet. Stay tuned!</p>}
+                        {hasProjectSanityError && <p className='text-red-600'>{sanityProjectErrorMessage}</p>}  
+                        {projects && projects.length != 0 && <Link 
                             className='border-2 rounded-md hover:bg-gray-300 bg-gray-200 px-4 p-1'
                             to='/projects'>
                                 View more
-                        </Link>
+                        </Link>}
                     </div>
                 </section>
                 <section id='blog-intro' className='pb-16'>
@@ -121,11 +133,14 @@ export default function Home() {
                                 slug={post.slug.current}/>
                             </div>
                         ))}
+                        {posts && posts.length == 0 && <p>No posts yet. Stay tuned!</p>}
+                        {hasPostSanityError && <p className='text-red-600'>{sanityPostErrorMessage}</p>} 
+                        {posts && posts.length != 0 && 
                         <Link 
                         className='border-2 rounded-md hover:bg-gray-300 bg-gray-200 px-4 p-1'
                         to='/blog'>
                             View more
-                        </Link>
+                        </Link>}
                     </div>
                 </section>
                 <section id='qualifications' className='pb-20'>

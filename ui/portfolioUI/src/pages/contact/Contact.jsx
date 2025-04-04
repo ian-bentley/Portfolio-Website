@@ -155,7 +155,7 @@ export default function Contact() {
             }
 
             console.log('Response ok! Contact email has been sent by the server.')
-            //navigate("/contact/success")
+            navigate("/contact/success")
         }).catch(()=>{
             console.error(contactErrorMessage)
             setHasContactError(true)

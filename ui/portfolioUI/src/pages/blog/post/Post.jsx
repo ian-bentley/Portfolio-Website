@@ -4,8 +4,10 @@ import { client } from "../../../sanityClient"
 import SanityBlockContent from "@sanity/block-content-to-react"
 
 export default function Post() {
+    const sanityErrorMessage = "Error: There was a problem getting the post data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
     const { slug } = useParams()
     const [post, setPost] = useState(null)
+    const [hasSanityError, setHasSanityError] = useState(false)
 
     useEffect(()=>{
         client.fetch(
@@ -23,11 +25,20 @@ export default function Post() {
                 body,
                 "authorName": author->name,
             }`)
-            .then(data=>setPost(data[0]))
-            .catch(console.error)
+            .then(data=>{
+                if (data[0] == null)
+                {
+                    navigate('/blog/404')
+                }
+                setPost(data[0])
+            })
+            .catch(()=>{
+                console.error(sanityErrorMessage)
+                setHasSanityError(true)
+            })
     })
 
-    if (!post) return <div>Loading...</div>
+    if (!post) return <div>{hasSanityError? "Loading..." : <p className='text-red-600'>{sanityErrorMessage}</p>}</div>
 
     return (
         <>

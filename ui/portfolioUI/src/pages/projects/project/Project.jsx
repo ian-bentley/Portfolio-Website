@@ -1,12 +1,15 @@
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import PostCard from "../../blog/PostCard"
 import { useEffect, useState } from "react"
 import { client } from "../../../sanityClient"
 import SanityBlockContent from "@sanity/block-content-to-react"
 
 export default function Project() {
+    const sanityErrorMessage = "Error: There was a problem getting the project data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
     const { slug } = useParams()
     const [project, setProject] = useState(null)
+    const navigate = useNavigate()
+    const [hasSanityError, setHasSanityError] = useState(false)
 
     useEffect(()=>{
         client.fetch(
@@ -25,11 +28,20 @@ export default function Project() {
                 githubLink,
                 projectLink,
             }`)
-            .then(data=>setProject(data[0]))
-            .catch(console.error)
+            .then(data=>{
+                if (data[0] == null)
+                {
+                    navigate('/projects/404')
+                }
+                setProject(data[0])
+            })
+            .catch(()=>{ 
+                console.error(sanityErrorMessage)
+                setHasSanityError(true)
+            })
     })
 
-    if (!project) return <div>Loading...</div>
+    if (!project) return <div>{hasSanityError? "Loading..." : <p className='text-red-600'>{sanityErrorMessage}</p>}</div>
 
     return (
         <>

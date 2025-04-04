@@ -3,7 +3,9 @@ import ProjectCard from './ProjectCard'
 import { client } from '../../sanityClient'
 
 export default function Projects() {
+    const sanityErrorMessage = "Error: There was a problem getting the project data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
     const [projects, setProjects] = useState(null)
+    const [hasSanityError, setHasSanityError] = useState(false)
 
     useEffect(()=>{
         getProjects()
@@ -11,7 +13,7 @@ export default function Projects() {
 
     const getProjects = () => {
         client.fetch(
-            `*[_type == "project"]{
+            `*[_type == "project" && !(_id in path('drafts.**'))]{
                 title,
                 slug,
                 description,
@@ -25,8 +27,15 @@ export default function Projects() {
             }`
         )
         .then(data=>setProjects(data))
-        .catch(console.error)
+        .catch(()=>{
+            console.error(sanityErrorMessage)
+            setHasSanityError(true)
+        })
     }
+
+    if (!projects) return <div>{hasSanityError? "Loading..." : <p className='text-red-600'>{sanityErrorMessage}</p>}</div>
+
+    if (projects.length == 0) return <div>No projects yet! Stay tuned!</div>
 
     return (
         <>
