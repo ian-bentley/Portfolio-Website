@@ -1,5 +1,9 @@
 {
   "api": {
     "url": "https://portfolio-api-fahghfaefqefd5bp.westus-01.azurewebsites.net/api/"
+  },
+
+  "ui": {
+    "url": "https://orange-coast-0e47f101e.6.azurestaticapps.net/"
   }
 }

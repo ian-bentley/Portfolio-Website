@@ -49,7 +49,7 @@ client.listen(query).subscribe(async update=>{
                 
                 body: JSON.stringify({
                     title: newPost.title,
-                    link: 'http://localhost:5173/blog/posts/'+newPost.slug.current,
+                    link: config.ui.url+'blog/posts/'+newPost.slug.current,
                     author: newPost.authorName,
                     description: newPost.description,
                     imageUrl: newPost.mainImage.asset.url,
