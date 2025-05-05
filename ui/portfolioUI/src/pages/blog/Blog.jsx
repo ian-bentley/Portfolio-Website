@@ -4,7 +4,7 @@ import SubscribePopup from './SubcribePopup'
 import { client } from '../../sanityClient'
 
 export default function Blog() {
-    const sanityErrorMessage = "Error: There was a problem getting the post data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
+    const sanityErrorMessage = "Error: There was a problem getting the post data. Please refresh and try again. If the problem persists, please contact the website administrator"
     const [showPopup, setShowPopup] = useState(null)
     const [posts, setPosts] = useState(null)
     const [hasSanityError, setHasSanityError] = useState(false)
@@ -63,7 +63,7 @@ export default function Blog() {
 
         const query = `*[_type == "post" && !(_id in path('drafts.**'))
                             && title match "*${searchText}*" 
-                            && ($tagsCount == 0 && (!defined(tags) || count(tags) == 0)) || tags count((tags[]->title)[@ in $tags]) == $tagsCount)
+                            && (($tagsCount == 0 && (!defined(tags) || count(tags) == 0)) || count((tags[]->title)[@ in $tags]) == $tagsCount)
                             && count((categories[]->title)[@ in $categories]) > 0
                             && ($startDate == '' || publishedAt > $startDate)
                             && ($endDate == '' || publishedAt < $endDate)] | order(publishedAt desc) {
