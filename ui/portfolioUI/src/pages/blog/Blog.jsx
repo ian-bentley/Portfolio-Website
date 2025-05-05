@@ -63,7 +63,7 @@ export default function Blog() {
 
         const query = `*[_type == "post" && !(_id in path('drafts.**'))
                             && title match "*${searchText}*" 
-                            && count((tags[]->title)[@ in $tags]) == $tagsCount
+                            && ($tagsCount == 0 && (!defined(tags) || count(tags) == 0)) || tags count((tags[]->title)[@ in $tags]) == $tagsCount)
                             && count((categories[]->title)[@ in $categories]) > 0
                             && ($startDate == '' || publishedAt > $startDate)
                             && ($endDate == '' || publishedAt < $endDate)] | order(publishedAt desc) {
