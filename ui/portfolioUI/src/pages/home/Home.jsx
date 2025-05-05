@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import { client } from '../../sanityClient'
 import ProjectCard from '../projects/ProjectCard'
 import PostCard from '../blog/PostCard'
-import projectPlus from '../imgs/comptia-project-plus.png';
-import aws from '../imgs/aws-cloud-practitioner.png';
-import ciwDev from '../imgs/ciw-site-dev-asoc.jpg';
-import ciwHtmlCss from '../imgs/ciw-html-css.jpg';
-import wguBackend from '../imgs/wgu-backend-developer.webp';
-import wguFrontend from '../imgs/wgu-frontend-developer.webp';
-import mePng from '../imgs/me.jpg'
+import projectPlus from '../../imgs/comptia-project-plus.png';
+import aws from '../../imgs/aws-cloud-practitioner.png';
+import ciwDev from '../../imgs/ciw-site-dev-asoc.jpg';
+import ciwHtmlCss from '../../imgs/ciw-html-css.jpg';
+import wguBackend from '../../imgs/wgu-backend-developer.webp';
+import wguFrontend from '../../imgs/wgu-frontend-developer.webp';
+import mePng from '../../imgs/me.jpg'
 
 export default function Home() {
     const sanityPostErrorMessage = "Error: There was a problem getting the post data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
