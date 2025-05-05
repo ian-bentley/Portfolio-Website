@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom'
 import { client } from '../../sanityClient'
 import ProjectCard from '../projects/ProjectCard'
 import PostCard from '../blog/PostCard'
+import projectPlus from '../imgs/comptia-project-plus.png';
+import aws from '../imgs/aws-cloud-practitioner.png';
+import ciwDev from '../imgs/ciw-site-dev-asoc.jpg';
+import ciwHtmlCss from '../imgs/ciw-html-css.jpg';
+import wguBackend from '../imgs/wgu-backend-developer.webp';
+import wguFrontend from '../imgs/wgu-frontend-developer.webp';
+import mePng from '../imgs/me.jpg'
 
 export default function Home() {
     const sanityPostErrorMessage = "Error: There was a problem getting the post data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
@@ -77,7 +84,7 @@ export default function Home() {
                     </ul>
                 </section>
                 <section id='intro' className='py-16 sm:flex sm:flex-row-reverse'>
-                    <img src='src/imgs/me.jpg' alt='A photo of me; Ian Bentley' className='pb-6     px-6 max-w-80 m-auto'/>
+                    <img src={mePng} alt='A photo of me; Ian Bentley' className='pb-6 px-6 max-w-80 m-auto'/>
                     <div className='sm:pr-10'>
                         <h1 className='text-2xl font-semibold pb-4'>Hello! I am Ian Bentley, a software engineering graduate in California.</h1>
                         <p>
@@ -146,12 +153,12 @@ export default function Home() {
                 <section id='qualifications' className='pb-20'>
                     <h1 className='text-2xl font-semibold pb-4'>Qualifications</h1>
                     <div className='m-auto max-w-96 grid grid-rows-2 grid-cols-3 pb-8 px-4'>
-                        <img src='src/imgs/comptia-project-plus.png' alt='CompTIA Project+ badge'/>
-                        <img src='src/imgs/aws-cloud-practitioner.png' alt='AWS Certified Cloud Practitioner badge'/>
-                        <img src='src/imgs/ciw-site-dev-asoc.jpg' alt='>CIW Site Development Associate badge'/>
-                        <img src='src/imgs/ciw-html-css.jpg' alt='CIW Advanced HTML5 & CSS3 Specialist badge'/>
-                        <img src='src/imgs/wgu-backend-developer.webp' alt='WGU Back-End Developer badge'/>
-                        <img src='src/imgs/wgu-frontend-developer.webp' alt='WGU Front-End Developer badge'/>
+                        <img src={projectPlus} alt='CompTIA Project+ badge'/>
+                        <img src={aws} alt='AWS Certified Cloud Practitioner badge'/>
+                        <img src={ciwDev} alt='CIW Site Development Associate badge'/>
+                        <img src={ciwHtmlCss} alt='CIW Advanced HTML5 & CSS3 Specialist badge'/>
+                        <img src={wguBackend} alt='WGU Back-End Developer badge'/>
+                        <img src={wguFrontend} alt='WGU Front-End Developer badge'/>
                     </div>
                     <div className='[@media(min-width:740px)]:grid [@media(min-width:740px)]:grid-cols-2'>
                         <div className='border-2 border-black rounded-3xl p-2 [@media(min-width:368px)]:w-[320px] mb-5 m-auto'>
