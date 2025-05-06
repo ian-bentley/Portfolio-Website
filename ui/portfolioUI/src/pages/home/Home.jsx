@@ -54,8 +54,10 @@ export default function Home() {
         client.fetch(
             `*[_type == "post" && !(_id in path('drafts.**'))][0..1]{
                 title,
+                "authorName": author->name,
                 slug,
                 description,
+                publishedAt,
                 mainImage{
                     asset->{
                         _id,
@@ -134,6 +136,8 @@ export default function Home() {
                             key={index}>
                                 <PostCard
                                 title={post.title}
+                                author={post.authorName}
+                                date={post.publishedAt.split('T')[0]}
                                 imageUrl={post.mainImage.asset.url}
                                 imageAlt={post.mainImage.alt}
                                 description={post.description}

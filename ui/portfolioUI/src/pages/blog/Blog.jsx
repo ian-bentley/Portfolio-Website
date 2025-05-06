@@ -292,7 +292,7 @@ export default function Blog() {
                             key={index}
                             title={post.title}
                             author={post.authorName}
-                            date={post.publishedAt}
+                            date={post.publishedAt.split('T')[0]}
                             imageUrl={post.mainImage.asset.url}
                             imageAlt={post.mainImage.alt}
                             description={post.description}
