@@ -52,7 +52,7 @@ export default function Home() {
 
     const getPosts = () => {
         client.fetch(
-            `*[_type == "post" && !(_id in path('drafts.**'))][0..1]{
+            `*[_type == "post" && !(_id in path('drafts.**'))] | order(publishedAt desc) [0..1]{
                 title,
                 "authorName": author->name,
                 slug,
