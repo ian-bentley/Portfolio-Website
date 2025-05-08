@@ -38,7 +38,7 @@ export default function Post() {
             })
     })
 
-    if (!post) return <div>{hasSanityError? "Loading..." : <p className='text-red-600'>{sanityErrorMessage}</p>}</div>
+    if (!post) return <div>{hasSanityError? <p className='text-red-600'>{sanityErrorMessage}</p>  : "Loading..."}</div>
 
     return (
         <>

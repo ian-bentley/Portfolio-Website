@@ -286,7 +286,7 @@ export default function Blog() {
                         </fieldset>
                     </form>
                     <div id='post-list' className='px-6 pt-10'>
-                        {!posts && <div>{hasSanityError? "Loading..." : <p className='text-red-600'>{sanityErrorMessage}</p>}</div>}
+                        {!posts && <div>{hasSanityError? <p className='text-red-600'>{sanityErrorMessage}</p> : "Loading..."}</div>}
                         {posts && posts.map((post,index)=>(
                             <PostCard
                             key={index}

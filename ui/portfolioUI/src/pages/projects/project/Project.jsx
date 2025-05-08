@@ -41,7 +41,7 @@ export default function Project() {
             })
     })
 
-    if (!project) return <div>{hasSanityError? "Loading..." : <p className='text-red-600'>{sanityErrorMessage}</p>}</div>
+    if (!project) return <div>{hasSanityError? <p className='text-red-600'>{sanityErrorMessage}</p> : "Loading..."}</div>
 
     return (
         <>
