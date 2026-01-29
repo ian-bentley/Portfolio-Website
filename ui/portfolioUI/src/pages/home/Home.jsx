@@ -88,7 +88,7 @@ export default function Home() {
                     <img src={mePng} alt='A photo of me; Ian Bentley' className='pb-6 px-6 max-w-80 m-auto'/>
                     <div className='sm:pr-10'>
                         <h1 className='text-2xl font-semibold pb-4'>Hello! I am Ian Bentley, a Junior Software Engineer in California.</h1>
-                        <p>
+                        <p className='mb-4'>
                             I build backend and full-stack web applications with a focus on internal tools, APIs, and data-driven 
                             business systems. My background includes supporting production business applications and developing for 
                             improvement of business workflow.
