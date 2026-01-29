@@ -15,8 +15,7 @@ export default function Home() {
     const sanityPostErrorMessage = "Error: There was a problem getting the post data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
     const sanityProjectErrorMessage = "Error: There was a problem getting the project data. Please refresh and try again. If the problem persists, please contact the wbesite administrator"
     const skillList = [
-        'C#', 'SQL', 'PowerShell', 'JS', 'Git', 'React', '.Net API', 'Azure', 'Tailwind',
-        'Sanity', 'SSMS', 'VS Code', 'Visual Studio', 'IntelliJ', 'MS Access', 'GitHub'
+        'C#', 'SQL Server', 'TypeScript', 'ASP.NET Core', 'React', 'Tailwind', 'Git', 'Azure', 'SSMS', 'Visual Studio', 'PowerShell'
     ]
     const [projects, setProjects] = useState(null)
     const [posts, setPosts] = useState(null)
@@ -88,21 +87,26 @@ export default function Home() {
                 <section id='intro' className='py-16 sm:flex sm:flex-row-reverse'>
                     <img src={mePng} alt='A photo of me; Ian Bentley' className='pb-6 px-6 max-w-80 m-auto'/>
                     <div className='sm:pr-10'>
-                        <h1 className='text-2xl font-semibold pb-4'>Hello! I am Ian Bentley, a software engineering graduate in California.</h1>
+                        <h1 className='text-2xl font-semibold pb-4'>Hello! I am Ian Bentley, a Junior Software Engineer in California.</h1>
                         <p>
-                            I received my Bachelor of Science in Software Engineering from Western Governor's 
-                            University. I am super passionate about programming and am always striving to 
-                            learn as much as I can on a daily basis. This website is for showcasing my work, 
-                            you can find more information about this website in the following sections.
+                            I build backend and full-stack web applications with a focus on internal tools, APIs, and data-driven 
+                            business systems. My background includes supporting production business applications and developing for 
+                            improvement of business workflow.
+                        </p>
+                        <p>
+                            I've designed and developed applications using ASP.NET Core, SQL Server, React, Tailwind, and Azure,
+                            including a production-ready inventory and employee management system designed for tracking and 
+                            quick access to workflow information. This site is for showcasing the projects and serves as 
+                            documentation of engineering decisions.
                         </p>
                     </div>
                 </section>
                 <section id='projects-intro' className='pb-16'>
                     <h1 className='text-2xl font-semibold pb-4'>Projects</h1>
                     <p className='pb-10'>
-                        All of my projects are posted on this website. You can view all of them in the Projects 
-                        page. This page contains details about each project describing their purpose, the 
-                        development process, and the technology used
+                        The projects on this site focus on backend and full-stack applications for internal business use. Each 
+                        project includes a technical overview, key features, and implementation highlights, and links to live 
+                        deployments and source code.
                     </p>
                     <div className='flex flex-col items-center [@media(min-width:890px)]:flex-row [@media(min-width:890px)]:flex-wrap [@media(min-width:890px)]:justify-center'>
                         {projects && projects.map((project, index)=>(
@@ -117,17 +121,17 @@ export default function Home() {
                         {projects && projects.length == 0 && <p>No projects yet. Stay tuned!</p>}
                         {hasProjectSanityError && <p className='text-red-600'>{sanityProjectErrorMessage}</p>}  
                         {projects && projects.length != 0 && <Link 
-                            className='border-2 rounded-md hover:bg-gray-300 bg-gray-200 px-4 p-1'
+                            className='font-semibold underline hover:text-blue-600'
                             to='/projects'>
-                                View more
+                                &gt;&gt; More Projects
                         </Link>}
                     </div>
                 </section>
                 <section id='blog-intro' className='pb-16'>
                     <h1 className='text-2xl font-semibold pb-4'>Blog</h1>
                     <p className='pb-10'>
-                        You can go to the Blog page to track any updates and view the history of not only this 
-                        website, but also my learning journey and the progress of my projects.
+                        This blog contains technical notes and write-ups related to my projects. The posts focus on 
+                        architectural decisions and considerations while building the applications.
                     </p>
                     <div className='flex flex-col items-center [@media(min-width:890px)]:flex-row [@media(min-width:890px)]:flex-wrap [@media(min-width:890px)]:justify-center'>
                         {posts && posts.map((post, index)=>(
@@ -150,7 +154,7 @@ export default function Home() {
                         <Link 
                         className='border-2 rounded-md hover:bg-gray-300 bg-gray-200 px-4 p-1'
                         to='/blog'>
-                            View more
+                            View More
                         </Link>}
                     </div>
                 </section>
@@ -170,10 +174,10 @@ export default function Home() {
                             <ul className='list-disc pl-8 text-xs'>
                                 <li><strong>Project+</strong> | CompTIA</li>
                                 <li><strong>Certified Cloud Practitioner</strong> | Amazon Web Services</li>
-                                <li><strong>Site Development Associate</strong> | CIW</li>
-                                <li><strong>Advanced HTML5 & CSS3 Specialist</strong> | CIW</li>
                                 <li><strong>Back-End Developer</strong> | Western Governor's University</li>
                                 <li><strong>Front-End Developer</strong> | Western Governor's University</li>
+                                <li><strong>Site Development Associate</strong> | CIW</li>
+                                <li><strong>Advanced HTML5 & CSS3 Specialist</strong> | CIW</li>
                             </ul>
                         </div>
                         <div className='border-2 border-black rounded-3xl p-4 [@media(min-width:368px)]:w-[320px] mb-5 m-auto'>
@@ -181,19 +185,15 @@ export default function Home() {
                             <ul className='list-disc pl-8 text-xs'>
                                 <li><strong>Bachelor of Science, Software Engineering</strong> | Western Governor's University, Milcreek, UT</li>
                                 <li><strong>Associate of Science, Computer Science and Information Systems</strong> | Grossmont College, El Cajon, CA</li>
-                                <ul>
-                                    <li>Awarded Certificate of Achievement in Computer Programming</li>
-                                </ul>
                             </ul>
                         </div>
                         <div className='border-2 border-black rounded-3xl p-4 [@media(min-width:368px)]:w-[320px] mb-5 m-auto'>
                             <h3 className='font-bold pb-2'>Work Experience</h3>
                             <p className='text-xs'><strong>Help Desk Technician II</strong> | Anchor General Insurance</p>
                             <ul className='list-disc pl-8 text-xs'>
-                                <li>Worked together with development and QA team to determine causes of issues with 
-                                    our custom proprietary applications</li>
-                                <li>Scripted automated processes to improve company workflow</li>
-                                <li>Designed UI applications to improve department processes</li>
+                                <li>Developed automation scripts and internal tools to improve business workflows.</li>
+                                <li>Collaborated with dev team on on investigating and resolving application production issues</li>
+                                <li>Wrote detailed steps and documentation to support bug resolution</li>
                             </ul>
                         </div>
                         <div className='border-2 border-black rounded-3xl p-4 [@media(min-width:368px)]:w-[320px] m-auto'>
